@@ -233,7 +233,7 @@ function claimListing(id, btn) {
 document.getElementById("requestBtn").addEventListener("click", () => {
   const input = document.getElementById("requestInput");
   if (!input.value.trim()) return;
-  requests.unshift({ text: input.value.trim(), time: "Just now" });
+  requests.unshift({ text: input.value.trim(), time: formatDate(Date.now()) });
   saveRequests();
   input.value = "";
   renderRequests();
