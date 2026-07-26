@@ -18,9 +18,19 @@ const DEFAULT_LISTINGS = [
 ];
 
 const DEFAULT_REQUESTS = [
-  { text: "Looking for old wooden pallets.", time: "2 hours ago" },
-  { text: "Need cardboard boxes for moving.", time: "Yesterday" }
+  { text: "Looking for old wooden pallets.", time: formatDate(Date.now() - 2 * 60 * 60 * 1000) },
+  { text: "Need cardboard boxes for moving.", time: formatDate(Date.now() - 24 * 60 * 60 * 1000) }
 ];
+
+function formatDate(timestamp) {
+  return new Date(timestamp).toLocaleString("en-PH", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
 
 /* ---------- Load from localStorage, or fall back to defaults ---------- */
 function loadListings() {
