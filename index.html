@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List Before You Toss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">♻</span>
+      <span class="brand-name">List Before You Toss</span>
+    </div>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="post">New Listing</button>
+      <button class="tab-btn" data-tab="feed">Nearby Listings</button>
+      <button class="tab-btn" data-tab="requests">Requests</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===================== POST A LISTING ===================== -->
+    <section id="post" class="panel active">
+      <div class="hero">
+        <h1>Don't toss it. <span class="hero-accent">Tag it.</span></h1>
+        <p class="hero-sub">Snap a photo, we'll figure out what it is, and get it in front of the right person — a buyer, a charity, or a recycler.</p>
+      </div>
+
+      <div class="listing-card">
+
+        <!-- Step 1: Photo -->
+        <div class="step">
+          <div class="step-label"><span>Photo</span></div>
+          <label class="upload-box" id="uploadBox">
+            <input type="file" accept="image/*" id="photoInput" hidden>
+            <img id="previewImg" hidden>
+            <div id="uploadPrompt" class="upload-prompt">
+              <span class="upload-icon">📷</span>
+              <span>Tap to add a photo</span>
+            </div>
+          </label>
+          <button id="scanBtn" class="ghost-btn" hidden>Scan item</button>
+        </div>
+
+        <!-- AI Result -->
+        <div id="aiResult" class="ai-result" hidden>
+          <div class="ai-tag-row">
+            <span class="ai-chip">AI SUGGESTION</span>
+          </div>
+          <p id="aiItemName" class="ai-item-name"></p>
+          <p id="aiDetails" class="ai-details"></p>
+        </div>
+
+        <!-- Step 2: Action -->
+        <div class="step">
+          <div class="step-label"><span>Choose an action</span></div>
+          <div class="action-group">
+            <button class="action-btn" data-action="recycle">
+              <span class="action-icon">♻️</span> Recycle
+            </button>
+            <button class="action-btn" data-action="sell">
+              <span class="action-icon">💰</span> Sell
+            </button>
+            <button class="action-btn" data-action="donate">
+              <span class="action-icon">❤️</span> Donate
+            </button>
+          </div>
+          <div id="priceRow" class="price-row" hidden>
+            <label for="priceInput">Asking price ($)</label>
+            <input type="number" id="priceInput" min="0" placeholder="0">
+          </div>
+        </div>
+
+        <!-- Step 3: Category + quantity -->
+        <div class="step two-col">
+          <div>
+            <div class="step-label"><span>Category</span></div>
+            <select id="categorySelect">
+              <option value="Plastic">Plastic</option>
+              <option value="Glass">Glass</option>
+              <option value="Paper">Paper</option>
+              <option value="Cardboard">Cardboard</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Metal">Metal</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Clothes">Clothes</option>
+              <option value="Appliances">Appliances</option>
+              <option value="Batteries">Batteries</option>
+              <option value="Books">Books</option>
+              <option value="Toys">Toys</option>
+            </select>
+          </div>
+          <div>
+            <div class="step-label"><span>Quantity</span></div>
+            <input type="text" id="quantityInput" placeholder="e.g. 20 boxes, 15 kg, 1 unit">
+          </div>
+        </div>
+
+        <!-- Step 4: Pickup -->
+        <div class="step">
+          <div class="step-label"><span>Pickup time</span></div>
+          <div class="pickup-group">
+            <button class="pickup-btn" data-pickup="Today">Today</button>
+            <button class="pickup-btn" data-pickup="Tomorrow">Tomorrow</button>
+            <button class="pickup-btn" data-pickup="Weekend">Weekend</button>
+          </div>
+        </div>
+
+        <!-- Step 5: Title/condition -->
+        <div class="step">
+          <div class="step-label"><span>Title & condition</span></div>
+          <input type="text" id="titleInput" placeholder="e.g. Old Laptop, Plastic Bottles, Scrap Metal">
+          <input type="text" id="conditionInput" placeholder="Condition (e.g. Good, Working, Broken)">
+        </div>
+
+        <button id="postBtn" class="primary-btn">Post listing</button>
+        <p id="postMsg" class="post-msg" hidden></p>
+      </div>
+    </section>
+
+    <!-- ===================== FEED ===================== -->
+    <section id="feed" class="panel">
+      <div class="feed-header">
+        <h2>Nearby listings</h2>
+        <select id="filterSelect">
+          <option value="all">All categories</option>
+        </select>
+      </div>
+      <div id="listingsGrid" class="listings-grid"></div>
+    </section>
+
+    <!-- ===================== REQUESTS ===================== -->
+    <section id="requests" class="panel">
+      <div class="feed-header">
+        <h2>Requests from collectors & neighbors</h2>
+      </div>
+      <div class="request-form">
+        <input type="text" id="requestInput" placeholder="Looking for... (e.g. old wooden pallets)">
+        <button id="requestBtn" class="primary-btn small">Post request</button>
+      </div>
+      <div id="requestsList" class="requests-list"></div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
