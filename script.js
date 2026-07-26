@@ -151,6 +151,7 @@ document.getElementById("postBtn").addEventListener("click", () => {
 
   listings.unshift({
     id: Date.now(),
+    datePosted: formatDate(Date.now()),
     title,
     category,
     action: selectedAction,
@@ -216,7 +217,8 @@ function renderListings() {
         </div>
         <p class="listing-meta">${l.category} · ${l.quantity} · ${l.condition}</p>
         <p class="listing-meta">Pickup: ${l.pickup} · <span class="stars">★ ${l.rating}</span></p>
-        <p class="listing-price">${l.action === "sell" ? "$" + l.price : "Free"}</p>
+        <p class="listing-meta">Posted: ${l.datePosted || "Just now"}</p>
+        <p class="listing-price">${l.action === "sell" ? "₱" + Number(l.price).toLocaleString("en-PH") : "Free"}</p>
         <button class="claim-btn" onclick="claimListing(${l.id}, this)">Claim / Request pickup</button>
       </div>
     </div>
