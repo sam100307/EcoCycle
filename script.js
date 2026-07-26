@@ -9,17 +9,40 @@ const AI_BANK = [
   { name: "Household Batteries", category: "Batteries", weight: "~12 units", price: 0, suggest: "recycle" }
 ];
 
-let listings = [
+/* ---------- Default sample data (used only the very first time) ---------- */
+const DEFAULT_LISTINGS = [
   { id: 1, title: "Old Laptop", category: "Electronics", action: "sell", price: 120, quantity: "1 unit", condition: "Working", pickup: "Tomorrow", rating: 4.8 },
   { id: 2, title: "Plastic Bottles", category: "Plastic", action: "recycle", price: 0, quantity: "75 bottles", condition: "Clean", pickup: "Weekend", rating: 4.5 },
   { id: 3, title: "Cardboard Boxes", category: "Cardboard", action: "donate", price: 0, quantity: "20 boxes", condition: "Good", pickup: "Today", rating: 4.9 },
   { id: 4, title: "Scrap Metal", category: "Metal", action: "sell", price: 25, quantity: "15 kg", condition: "Mixed", pickup: "Tomorrow", rating: 4.2 }
 ];
 
-let requests = [
+const DEFAULT_REQUESTS = [
   { text: "Looking for old wooden pallets.", time: "2 hours ago" },
   { text: "Need cardboard boxes for moving.", time: "Yesterday" }
 ];
+
+/* ---------- Load from localStorage, or fall back to defaults ---------- */
+function loadListings() {
+  const saved = localStorage.getItem("lbt_listings");
+  return saved ? JSON.parse(saved) : DEFAULT_LISTINGS;
+}
+
+function loadRequests() {
+  const saved = localStorage.getItem("lbt_requests");
+  return saved ? JSON.parse(saved) : DEFAULT_REQUESTS;
+}
+
+function saveListings() {
+  localStorage.setItem("lbt_listings", JSON.stringify(listings));
+}
+
+function saveRequests() {
+  localStorage.setItem("lbt_requests", JSON.stringify(requests));
+}
+
+let listings = loadListings();
+let requests = loadRequests();
 
 let selectedAction = null;
 let selectedPickup = null;
@@ -129,6 +152,8 @@ document.getElementById("postBtn").addEventListener("click", () => {
     photo: uploadedPhotoSrc
   });
 
+  saveListings();
+
   msg.hidden = false;
   msg.style.color = "#4c8c5c";
   msg.textContent = "Listing posted! Check the Nearby Listings tab.";
@@ -158,8 +183,10 @@ const filterSelect = document.getElementById("filterSelect");
 
 function populateFilter() {
   const cats = [...new Set(listings.map(l => l.category))];
+  const current = filterSelect.value || "all";
   filterSelect.innerHTML = `<option value="all">All categories</option>` +
     cats.map(c => `<option value="${c}">${c}</option>`).join("");
+  filterSelect.value = current;
 }
 
 filterSelect.addEventListener("change", renderListings);
@@ -197,6 +224,7 @@ document.getElementById("requestBtn").addEventListener("click", () => {
   const input = document.getElementById("requestInput");
   if (!input.value.trim()) return;
   requests.unshift({ text: input.value.trim(), time: "Just now" });
+  saveRequests();
   input.value = "";
   renderRequests();
 });
